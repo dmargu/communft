@@ -9,7 +9,6 @@ function App() {
   const [signUpVisible, setSignUpVisible] = useState(false);
   const [loginVisible, setLoginVisible] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const poop = '';
 
   return (
     <div className="AppContainer">
