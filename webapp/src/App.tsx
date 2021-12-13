@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import db from './firebase';
 import LoginOrSignupWidget from './components/loginOrSignupWidget';
 import SignUpWidget from './components/signUpWidget';
 import LoginWidget from './components/loginWidget';
@@ -9,6 +10,8 @@ function App() {
   const [signUpVisible, setSignUpVisible] = useState(false);
   const [loginVisible, setLoginVisible] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+
+  console.log(db);
 
   return (
     <div className="AppContainer">
