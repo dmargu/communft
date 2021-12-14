@@ -6,11 +6,11 @@ declare global {
         ethereum:any;
     }
 }
-// SETUP REPOSITORY BEFORE GOING ANY FURTHER
+
 const Profile = () => {
     const [metamaskFeedback, setMetamaskFeedback] = useState('');
+    const [connectSuccess, setConnectSuccess] = useState(false);
     const [metamaskAddys, addMetamaskAddress] = React.useState<string[]>([]);
-    const [connectSuccess, setConnectSuccess] = React.useState(false);
 
     const message = 'Please sign this message so we know you own the wallet. We only save your public key with your profile.';
 
