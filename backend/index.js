@@ -3,21 +3,9 @@ const { ApolloServerPluginLandingPageGraphQLPlayground } = require("apollo-serve
 const gql = require('graphql-tag');
 const mongoose = require('mongoose');
 
+const typeDefs = require('./graphql/typeDefs');
+const resolvers = require('./graphql/resolvers');
 require('dotenv').config({ path: '.env' });
-
-
-
-const typeDefs = gql`
-    type Query {
-        hello: String
-    }
-`;
-
-const resolvers = {
-    Query: {
-        hello: () => 'Hello world!!!!!'
-    }
-};
 
 const server = new ApolloServer({ 
     typeDefs, 
