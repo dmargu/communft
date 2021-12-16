@@ -5,10 +5,18 @@ type User {
     id: ID!,
     username: String!,
     password: String!,
-    region: String,
-    createdAt: String!
+    createdAt: String!,
+    authToken: String!
 }
 type Query {
     getUsers: [User]
+}
+input RegisterUserInput{
+    username: String!,
+    password: String!,
+    email: String!
+}
+type Mutation {
+    registerUser(registerUserInput: RegisterUserInput): User!
 }
 `;
