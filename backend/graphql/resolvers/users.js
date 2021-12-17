@@ -4,7 +4,16 @@ const { UserInputError } = require('apollo-server');
 
 require('dotenv').config({ path: '../../.env' });
 const User = require('../../models/User');
-const { validateRegisterInput } = require('../../utils/validators');
+const { validateRegisterInput, validateLoginInput } = require('../../utils/validators');
+
+function generateToken(user) {
+    return jwt.sign({
+        id: user.id,
+        email: user.email,
+        username: user.username
+    }, process.env.JWT_SECRET, { expiresIn: '1h' }
+    );
+}
 
 module.exports = {
     Query: {
@@ -18,6 +27,34 @@ module.exports = {
         }
     },
     Mutation: {
+        async login(_, { username, password }) {
+            const { errors, valid } = validateLoginInput(username, password);
+            const user = await User.findOne({ username });
+
+            if (!valid) {
+                throw new UserInputError('Errors', { errors });
+            }
+
+            if (!user) {
+                errors.general = 'User not found';
+                throw new UserInputError('User not found', { errors });
+            }
+
+            const match = await bcrypt.compare(password, user.password);
+            if (!match) {
+                errors.general = 'Password is incorrect';
+                throw new UserInputError('Password is incorrect', { errors });
+            }
+
+            const token = generateToken(user);
+
+            // return token
+            return {
+                ...user._doc,
+                id: user._id,
+                token
+            };
+        },
         async registerUser(_, { registerUserInput: { username, email, password, confirmPassword } }) {
             // validate data
             const { valid, errors } = validateRegisterInput(username, email, password, confirmPassword);
@@ -55,17 +92,13 @@ module.exports = {
             const res = await newUser.save();
             
             //create an auth token
-            const token = jwt.sign({
-                id: res.id,
-                email: res.email,
-                username: res.username
-            }, process.env.JWT_SECRET, { expiresIn: '1h'});
+            const token = generateToken(res);
 
             // return token
             return {
                 ...res._doc,
                 id: res._id,
-                authToken: token
+                token
             };
         }
     }

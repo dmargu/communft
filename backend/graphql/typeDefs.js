@@ -6,8 +6,9 @@ type User {
     id: ID!,
     username: String!,
     password: String!,
+    email: String!,
     createdAt: String!,
-    authToken: String!
+    token: String!
 }
 type Query {
     getUsers: [User]
@@ -20,5 +21,6 @@ input RegisterUserInput{
 }
 type Mutation {
     registerUser(registerUserInput: RegisterUserInput): User!
+    login(username: String, password: String!): User!
 }
 `;
