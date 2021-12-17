@@ -12,6 +12,8 @@ const SignUpWidget = (props: Props) => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
+    //we have to validate the data on the backend anyway, should still do it on the frontend to improve UX and reduce work for the backend
+
     //checks if password is equal to confirmed password and contains at least 8 characters, one capital letter, one number and one special character
     const checkPassword = () => {
         if (password === confirmPassword && password.length >= 8 && password.match(/[A-Z]/) && password.match(/[0-9]/) && password.match(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/)) {

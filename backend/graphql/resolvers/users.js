@@ -4,6 +4,7 @@ const { UserInputError } = require('apollo-server');
 
 require('dotenv').config({ path: '../../.env' });
 const User = require('../../models/User');
+const { validateRegisterInput } = require('../../utils/validators');
 
 module.exports = {
     Query: {
@@ -17,8 +18,12 @@ module.exports = {
         }
     },
     Mutation: {
-        async registerUser(_, { registerUserInput: { username, email, password } }) {
-            // validate user data
+        async registerUser(_, { registerUserInput: { username, email, password, confirmPassword } }) {
+            // validate data
+            const { valid, errors } = validateRegisterInput(username, email, password, confirmPassword);
+            if (!valid) {
+                throw new UserInputError('Errors', { errors });
+            }
             // make sure username and email doesn't already exist
             const usernameTaken = await User.findOne({ username });
             const emailTaken = await User.findOne({ email });

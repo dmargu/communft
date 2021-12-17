@@ -1,6 +1,7 @@
 const gql = require('graphql-tag');
 
-module.exports = gql`
+// need to make sure all the fields in here are set up the right way so were in the best spot for default data
+module.exports = gql` 
 type User {
     id: ID!,
     username: String!,
@@ -14,6 +15,7 @@ type Query {
 input RegisterUserInput{
     username: String!,
     password: String!,
+    confirmPassword: String!,
     email: String!
 }
 type Mutation {
