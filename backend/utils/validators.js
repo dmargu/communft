@@ -16,12 +16,10 @@ module.exports.validateRegisterInput = (
             errors.email = 'Email must be a valid email address';
         }
     }
-    if (password === '') {
-        errors.password = 'Password must not be empty';
+    if (password.length < 8 || !password.match(/[A-Z]/) || !password.match(/[0-9]/) || !password.match(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/)) {
+        errors.password = 'Password must contain at least 8 characters, one capital letter, one number and one special character';
     } else if (password !== confirmPassword) {
         errors.confirmPassword = 'Passwords must match';
-    } else if (password.length < 8 || !password.match(/[A-Z]/) || !password.match(/[0-9]/) || !password.match(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/)) {
-        errors.password = 'Password must contain at least 8 characters, one capital letter, one number and one special character';
     }
     return {
         errors,
