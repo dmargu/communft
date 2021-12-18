@@ -11,8 +11,9 @@ const server = new ApolloServer({
     typeDefs, 
     resolvers,
     plugins: [
-        ApolloServerPluginLandingPageGraphQLPlayground(),
-      ], 
+        ApolloServerPluginLandingPageGraphQLPlayground()
+    ], 
+    context: ({ req }) => ({ req })
 });
 
 mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true })
