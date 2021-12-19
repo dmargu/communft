@@ -5,10 +5,19 @@ const Group = require('../../models/Group');
 const checkAuth = require('../../utils/checkAuth');
 
 module.exports = {
-    Query: {                  //TODO: add getting messages by group
-        async getMessages() { //TODO: add pagination
+    Query: {
+        async getMessages() {
             try {
                 const messages = await Message.find().sort({ createdAt: -1 });
+                return messages;
+            }
+            catch (err) {
+                throw new Error(err);
+            }
+        },
+        async getGroupMessages(_, { groupID }) { //TODO: add pagination... is it as simple as .limit(50) or however many messages? How do we get the ones after that (ex. 51-100)?
+            try {
+                const messages = await Message.find({ groupID }).sort({ createdAt: -1 });
                 return messages;
             }
             catch (err) {
