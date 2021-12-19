@@ -1,6 +1,5 @@
 const gql = require('graphql-tag');
 
-// need to make sure all the fields in here are set up the right way so were in the best spot for default data
 module.exports = gql` 
     type User {
         id: ID!,
@@ -10,10 +9,40 @@ module.exports = gql`
         createdAt: String!,
         token: String!
     }
-    type Message {
+    type Group {
         id: ID!,
+        members: [Member]!,
+        type: String!,
+        createdAt: String!,
+        nftProjectName: String,
+        region: String,
+        latestMessage: LatestMessage,
+    }
+    type Member {
+        userID: String!
+        createdAt: String!
+    }
+    type LatestMessage {
+        messageID: String!,
         messageText: String!,
         messageSenderUserID: String!,
+        createdAt: String!
+    }
+    type Message {
+        id: ID!,
+        groupID: String!,
+        messageText: String!,
+        messageSenderUserID: String!,
+        createdAt: String!,
+        reactions: [Reaction]!,
+        replyToMessageID: String
+    }
+    type ReplyTo { 
+        messageID: String! 
+    }
+    type Reaction {
+        userID: String!,
+        reaction: String!,
         createdAt: String!
     }
     type Query {
@@ -27,10 +56,14 @@ module.exports = gql`
         confirmPassword: String!,
         email: String!
     }
+
     type Mutation {
         registerUser(registerUserInput: RegisterUserInput): User!
         login(username: String, password: String!): User!
-        createMessage(messageText: String!): Message!
-        deleteMessage(messageID: ID!): String!
+        createMessage(messageText: String!, groupID: String!): Message!
+        createReply(messageText: String!, groupID: String!, replyToMessageID: String!): Message!
+        deleteMessage(messageID: ID!, groupID: String!): String!
+        createReaction(messageID: ID!, reaction: String!): Message!
+        deleteReaction(messageID: ID!): Message!
     }
 `;

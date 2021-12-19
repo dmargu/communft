@@ -4,16 +4,20 @@ const userSchema = new Schema({
     username: String,
     password: String,
     email: String,
-    //userID: String,
-    region: String,
+    createdAt: String,
+    bio: String,
+    homeRegion: String,
+    lastKnownRegion: String,
     connectedWallets: [{
         walletProvider: String,
         walletAddress: String
     }],
-    groups: [{
-        groupId: String
+    groups: [{ 
+        groupId: String 
     }],
-    createdAt: String
+    friends: [{ 
+        userID: String 
+    }]
 });
 
 module.exports = model('User', userSchema);
