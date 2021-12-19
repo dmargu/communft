@@ -173,14 +173,19 @@ module.exports = {
                 //change the latest group message if it is the latest group message and make it the message before
                 const group = await Group.findById(groupID);
                 if (group.latestMessage.messageID === messageID) {
-                    const latestMessage = await Message.find({ groupID }).sort({ createdAt: -1 }).limit(1); //this returns an array of one object
-                    group.latestMessage = { //TODO: add picture to latest message when it's implemented
+                    const latestMessage = await Message.find({ groupID }).sort({ createdAt: -1 }).limit(1); //this returns an array of one object unless there are no messages left
+                    if (latestMessage.length !== 0) {
+                        group.latestMessage = { //TODO: add picture to latest message when it's implemented
                             messageID: latestMessage[0].id,
                             messageText: latestMessage[0].messageText,
                             messageSenderUserID: latestMessage[0].messageSenderUserID,
                             createdAt: latestMessage[0].createdAt
+                        }
+                    } else { //if there are no messages left, set latest message to null
+                        group.latestMessage = null;
                     }
                     await group.save();
+
                 }
                 return 'Message deleted successfully.';
             }
