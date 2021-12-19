@@ -7,7 +7,16 @@ module.exports = gql`
         password: String!,
         email: String!,
         createdAt: String!,
-        token: String!
+        token: String!,
+        homeRegion: String!,
+        lastKnownRegion: String!,
+        connectedWallets: [WalletInfo]!,
+        groups: [String]!,
+        friends: [String]!
+    }
+    type WalletInfo {
+        walletAddress: String!,
+        walletProvider: String!
     }
     type Group {
         id: ID!,
@@ -37,18 +46,10 @@ module.exports = gql`
         reactions: [Reaction]!,
         replyToMessageID: String
     }
-    type ReplyTo { 
-        messageID: String! 
-    }
     type Reaction {
         userID: String!,
         reaction: String!,
         createdAt: String!
-    }
-    type Query {
-        getUsers: [User]
-        getMessages: [Message]
-        getMessage(messageID: ID!): Message
     }
     input RegisterUserInput{
         username: String!,
@@ -56,7 +57,11 @@ module.exports = gql`
         confirmPassword: String!,
         email: String!
     }
-
+    type Query {
+        getUsers: [User]
+        getMessages: [Message]
+        getMessage(messageID: ID!): Message
+    }
     type Mutation {
         registerUser(registerUserInput: RegisterUserInput): User!
         login(username: String, password: String!): User!
@@ -65,5 +70,7 @@ module.exports = gql`
         deleteMessage(messageID: ID!, groupID: String!): String!
         createReaction(messageID: ID!, reaction: String!): Message!
         deleteReaction(messageID: ID!): Message!
+        addWallet(walletAddress: String!, walletProvider: String!): User!
+        deleteWallet(walletAddress: String!): User!
     }
 `;

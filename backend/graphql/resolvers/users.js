@@ -5,6 +5,7 @@ const { UserInputError } = require('apollo-server');
 require('dotenv').config({ path: '../../.env' });
 const User = require('../../models/User');
 const { validateRegisterInput, validateLoginInput } = require('../../utils/validators');
+const checkAuth = require('../../utils/checkAuth');
 
 function generateToken(user) {
     return jwt.sign({
@@ -87,7 +88,12 @@ module.exports = {
                 username,
                 email,
                 password: hashedPassword,
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
+                homeRegion: '',
+                lastKnownRegion: '',
+                connectedWallets: [],
+                groups: [],
+                friends: []
             });
             const res = await newUser.save();
             
@@ -100,6 +106,60 @@ module.exports = {
                 id: res._id,
                 token
             };
+        },
+        async addWallet(_, { walletAddress, walletProvider }, context) {
+            const user = checkAuth(context);
+
+            try {
+                //make sure the wallet address and wallet provider are not empty strings
+                if (walletAddress === '' || walletProvider === '') {
+                    throw new Error('Wallet address and wallet provider cannot be empty');
+                }
+                const userInDb = await User.findById(user.id);
+                //make sure wallet address isn't already in connectedWallets
+                const walletAlreadyConnected = userInDb.connectedWallets.some(wallet => wallet.walletAddress === walletAddress);
+                if (walletAlreadyConnected) {
+                    throw new UserInputError('Wallet already connected', {
+                        errors: {
+                            walletAddress: 'This wallet is already connected'
+                        }
+                    });
+                }
+                userInDb.connectedWallets.push({
+                    walletAddress,
+                    walletProvider
+                });
+                await userInDb.save();
+                return userInDb;
+            }
+            catch (err) {
+                throw new Error(err);
+            }
+        },
+        async deleteWallet(_, { walletAddress }, context) {
+            const user = checkAuth(context);
+
+            try {
+                if (walletAddress === '') {
+                    throw new Error('Wallet address cannot be empty');
+                }
+                const userInDb = await User.findById(user.id);
+                //make sure wallet address is in connectedWallets
+                const walletAlreadyConnected = userInDb.connectedWallets.some(wallet => wallet.walletAddress === walletAddress);
+                if (!walletAlreadyConnected) {
+                    throw new UserInputError('Wallet not connected', {
+                        errors: {
+                            walletAddress: 'This wallet is not connected'
+                        }
+                    });
+                }
+                userInDb.connectedWallets = userInDb.connectedWallets.filter(wallet => wallet.walletAddress !== walletAddress);
+                await userInDb.save();
+                return userInDb;
+            }
+            catch (err) {
+                throw new Error(err);
+            }
         }
     }
 };

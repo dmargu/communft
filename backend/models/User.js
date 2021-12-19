@@ -5,12 +5,11 @@ const userSchema = new Schema({
     password: String,
     email: String,
     createdAt: String,
-    bio: String,
     homeRegion: String,
     lastKnownRegion: String,
     connectedWallets: [{
-        walletProvider: String,
-        walletAddress: String
+        walletAddress: String,
+        walletProvider: String
     }],
     groups: [{ 
         groupId: String 
