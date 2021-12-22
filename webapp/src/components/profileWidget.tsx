@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { GET_MESSAGES } from '../graphql/queries';
 import './components.css';
 declare global {

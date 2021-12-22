@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Form } from 'semantic-ui-react';
+import { useMutation } from '@apollo/client';
 import './components.css'
 
 interface Props {
@@ -17,23 +19,23 @@ const LoginWidget = (props: Props) => {
     
     return (
         <div>
-            <div className="FieldContainer">
-                <p>Username:</p>
-                <input 
-                    type="text"
+            <Form>
+                <h1 className='FormHeaderText'>COMMUNFT Login</h1>
+                <Form.Input
+                    label='Username'
+                    placeholder='ilovenfts'
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)} 
+                    onChange={(e) => setUsername(e.target.value)}
                 />
-            </div>
-            <div className="FieldContainer">
-                <p>Password:</p>
-                <input 
-                    type="password"
+                <Form.Input
+                    label='Password'
+                    type='password'
+                    placeholder='wittyNFTreference1!'
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)} 
+                    onChange={(e) => setPassword(e.target.value)}
                 />
-            </div>
-            <button onClick={handleSubmit}>Login</button>
+            </Form>
+            <button className='FormButton' onClick={handleSubmit}>Login</button>
         </div>
     );
 };

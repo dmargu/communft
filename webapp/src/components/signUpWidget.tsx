@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { Form } from 'semantic-ui-react';
+import { useMutation } from '@apollo/client';
+import { REGISTER_USER } from '../graphql/mutations';
 import './components.css'
 
 interface Props {
@@ -11,67 +14,76 @@ const SignUpWidget = (props: Props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [errors, setErrors] = useState<any>({});
 
-    //we have to validate the data on the backend anyway, should still do it on the frontend to improve UX and reduce work for the backend
-
-    //checks if password is equal to confirmed password and contains at least 8 characters, one capital letter, one number and one special character
-    const checkPassword = () => {
-        if (password === confirmPassword && password.length >= 8 && password.match(/[A-Z]/) && password.match(/[0-9]/) && password.match(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/)) {
-            return true;
-        } else {
-            return false;
+    const [registerUser, { loading }] = useMutation(REGISTER_USER, {
+        variables: {
+            username,
+            email,
+            password,
+            confirmPassword
+        },
+        onCompleted: (data: any) => {
+            console.log(data);
+            props.setLoggedIn();
+            props.setSignUpInvisible();
+        },
+        onError: (err: any) => {
+            setErrors(err.graphQLErrors[0].extensions.errors);
         }
-    };
+    });
 
-    //checks if email is valid
-    const checkEmail = () => {
-        if (email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
-            return true;
-        } else {
-            return false;
-        }
-    };
-
-    const handleSubmit = () => {
-        props.setLoggedIn();
-        props.setSignUpInvisible();
+    //we should eventually validate data on frontend here to reduce work on the backend, keeping it out now for simplicity
+    const handleSubmit = () => { 
+        //send data to backend
+        registerUser();
     };
 
     return (
-        <div>
-            <div className="FieldContainer">
-                <p>Username:</p>
-                <input 
-                    type="text" 
+        <div className='FormWidgetContainer'>
+            <Form onSubmit={handleSubmit} className={loading ? 'loading' : ''}>
+                <h1 className='FormHeaderText'>COMMUNFT Sign Up</h1>
+                <Form.Input
+                    label='Username'
+                    placeholder='ilovenfts'
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
+                    error={errors.username ? true : false}
                 />
-            </div>
-            <div className="FieldContainer">
-                <p>Email:</p>
-                <input 
-                    type="text" 
+                <Form.Input
+                    label='Email'
+                    placeholder='pepe@communft.xyz'
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    error={errors.email ? true : false}
                 />
-            </div>
-            <div className="FieldContainer">
-                <p>Password:</p>
-                <input 
-                    type="password" 
+                <Form.Input
+                    label='Password'
+                    type='password'
+                    placeholder='wittyNFTreference1!'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    error={errors.password ? true : false}
                 />
-            </div>
-            <div className="FieldContainer">
-                <p>Confirm Password:</p>
-                <input 
-                    type="password" 
+                <Form.Input
+                    label='Confirm Password'
+                    type='password'
+                    placeholder='wittyNFTreference1!'
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
+                    error={errors.confirmPassword ? true : false}
                 />
-            </div>
-            <button onClick={handleSubmit}>Sign Up</button>
+                <Form.Button type='submit' disabled={loading} primary>Submit</Form.Button>
+            </Form>
+            {Object.values(errors).length > 0 && (
+                <div className='ui error message'>
+                    <ul className='list'>
+                        {Object.values(errors).map((err: any) => (
+                            <li key={err}>{err}</li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </div>
     )
 };

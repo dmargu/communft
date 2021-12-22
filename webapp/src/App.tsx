@@ -4,6 +4,7 @@ import SignUpWidget from './components/signUpWidget';
 import LoginWidget from './components/loginWidget';
 import ProfileWidget from './components/profileWidget';
 import './App.css';
+import 'semantic-ui-css/semantic.min.css';
 
 function App() {
   const [signUpVisible, setSignUpVisible] = useState(false);

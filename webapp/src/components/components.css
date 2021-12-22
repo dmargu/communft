@@ -17,3 +17,12 @@
 .RedText {
     color: red;
 }
+
+.FormWidgetContainer {
+    width: 25vw;
+    height: 50vh;
+}
+
+.FormHeaderText {
+    text-align: center;
+}
