@@ -1,8 +1,5 @@
 .LoginSignupWidgetContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    height: 10vh;
+    align-items: center;
 }
 
 .FieldContainer {
@@ -18,11 +15,18 @@
     color: red;
 }
 
-.FormWidgetContainer {
+.WidgetContainer {
     width: 25vw;
     height: 50vh;
 }
 
 .FormHeaderText {
     text-align: center;
+}
+
+.LinkContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }

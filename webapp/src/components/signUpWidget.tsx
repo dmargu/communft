@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 import { Form } from 'semantic-ui-react';
 import { useMutation } from '@apollo/client';
 import { REGISTER_USER } from '../graphql/mutations';
 import './components.css'
 
-interface Props {
-    setLoggedIn: () => void;
-    setSignUpInvisible: () => void;
-}
 
-const SignUpWidget = (props: Props) => {
+const SignUpWidget = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setErrors] = useState<any>({});
+
+    const navigate = useNavigate();
 
     const [registerUser, { loading }] = useMutation(REGISTER_USER, {
         variables: {
@@ -25,8 +24,7 @@ const SignUpWidget = (props: Props) => {
         },
         onCompleted: (data: any) => {
             console.log(data);
-            props.setLoggedIn();
-            props.setSignUpInvisible();
+            navigate('/profile');
         },
         onError: (err: any) => {
             setErrors(err.graphQLErrors[0].extensions.errors);
@@ -40,9 +38,9 @@ const SignUpWidget = (props: Props) => {
     };
 
     return (
-        <div className='FormWidgetContainer'>
+        <div className='WidgetContainer'>
             <Form onSubmit={handleSubmit} className={loading ? 'loading' : ''}>
-                <h1 className='FormHeaderText'>COMMUNFT Sign Up</h1>
+                <h1 className='FormHeaderText'>Sign Up</h1>
                 <Form.Input
                     label='Username'
                     placeholder='ilovenfts'
@@ -84,6 +82,9 @@ const SignUpWidget = (props: Props) => {
                     </ul>
                 </div>
             )}
+            <div className='LinkContainer'>
+                <p>Already have an account? <a href='/login'>Login</a></p>
+            </div>
         </div>
     )
 };
