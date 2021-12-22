@@ -1,32 +1,9 @@
 import React from 'react';
 import App from './App';
-import { 
-    ApolloClient, 
-    InMemoryCache,
-    createHttpLink,
-    ApolloProvider,
-    ApolloLink
-} from '@apollo/client';
-import { onError } from '@apollo/client/link/error';
-
-
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
-    console.log('graphQLErrors', graphQLErrors);
-  }
-  if (networkError) {
-    console.log('networkError', networkError);
-  }
-});
-
-const httpLink = createHttpLink({
-    uri: 'http://localhost:5000'
-});
-
-const link = ApolloLink.from([errorLink, httpLink]);
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 const client = new ApolloClient({
-    link,
+    uri: 'http://localhost:5000', //should change this to a .env variable
     cache: new InMemoryCache()
 });
 
