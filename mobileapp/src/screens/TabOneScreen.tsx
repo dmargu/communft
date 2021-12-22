@@ -7,6 +7,9 @@ import { RootTabScreenProps } from '../../types';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   const { loading, error, data } = useQuery(GET_MESSAGES);
+  if (error) {
+    console.log(error);
+  }
 
   return (
     <View style={styles.container}>

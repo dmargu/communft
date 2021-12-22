@@ -5,7 +5,7 @@ import RootComponent from './App';
 
 // Initialize Apollo Client
 const client = new ApolloClient({
-  uri: 'http://localhost:5000', //should change this to a .env variable
+  uri: 'http://10.0.0.41:5000', //should change this to a .env variable, also doing the actual IP address makes it work with android
   cache: new InMemoryCache()
 });
 
