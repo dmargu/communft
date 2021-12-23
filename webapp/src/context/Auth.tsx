@@ -8,10 +8,12 @@ interface Action {
 
 interface UserData {
     id: string;
-    email: string;
     username: string;
-    createdAt: string;
     token: string;
+    connectedWallets: [{
+        walletAddress: string;
+        walletProvider: string;
+    }];
 }
 
 const initialState: any = {

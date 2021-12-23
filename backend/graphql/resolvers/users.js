@@ -25,6 +25,18 @@ module.exports = {
             } catch (err) {
                 throw new Error(err);
             }
+        },
+        async getUser(_, {}, context) { //TEST THIS
+            const user = checkAuth(context);
+            console.log('USER', user);
+            
+            try {
+                const userInDb = await User.findById(user.id);
+                return userInDb;
+            }
+            catch (err) {
+                throw new Error(err);
+            }
         }
     },
     Mutation: {
@@ -115,16 +127,15 @@ module.exports = {
                 if (walletAddress === '' || walletProvider === '') {
                     throw new Error('Wallet address and wallet provider cannot be empty');
                 }
-                const userInDb = await User.findById(user.id);
-                //make sure wallet address isn't already in connectedWallets
-                const walletAlreadyConnected = userInDb.connectedWallets.some(wallet => wallet.walletAddress === walletAddress);
-                if (walletAlreadyConnected) {
-                    throw new UserInputError('Wallet already connected', {
-                        errors: {
-                            walletAddress: 'This wallet is already connected'
-                        }
-                    });
+
+                //make sure the wallet address is not already in the database
+                const walletInDb = await User.findOne({ 'connectedWallets.walletAddress': walletAddress });
+                if (walletInDb) {
+                    throw new Error('Wallet address is connected to a different account. If you believe this is a mistake contact us on discord.');
                 }
+
+                const userInDb = await User.findById(user.id);
+
                 userInDb.connectedWallets.push({
                     walletAddress,
                     walletProvider

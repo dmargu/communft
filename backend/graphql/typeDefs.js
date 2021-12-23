@@ -59,6 +59,7 @@ module.exports = gql`
     }
     type Query {
         getUsers: [User]
+        getUser: User
         getMessages: [Message]
         getGroupMessages(groupID: String!): [Message]
         getMessage(messageID: ID!): Message
