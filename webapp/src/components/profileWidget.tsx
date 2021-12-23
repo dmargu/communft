@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { ethers } from 'ethers';
 import { useQuery } from '@apollo/client';
-import { GET_MESSAGES } from '../graphql/queries';
+
+import { AuthContext } from '../context/Auth';
+import { GET_MESSAGES } from '../graphql/Queries';
 import './components.css';
+
 declare global {
     interface Window {
         ethereum:any;
@@ -10,18 +13,14 @@ declare global {
 }
 
 const Profile = () => {
+    const { user, logout } = useContext(AuthContext);
     const [metamaskFeedback, setMetamaskFeedback] = useState('');
     const [connectSuccess, setConnectSuccess] = useState(false);
     const [metamaskAddys, addMetamaskAddress] = React.useState<string[]>([]);
 
     const { loading, error, data } = useQuery(GET_MESSAGES);
 
-    if (data) {
-        console.log(data);
-    }
-
     const message = 'Please sign this message so we know you own the wallet. We only save your public key with your profile.';
-
     const handleMetamaskClick = async () => {
         try {
             if (!window.ethereum)
@@ -63,6 +62,7 @@ const Profile = () => {
                     <ul>
                         {data.getMessages.map((message: any) => <li key={message.id}>{message.messageText}</li>)}
                     </ul>
+                    <button onClick={logout}>Log Out</button>
                 </div>
             }
         </div>

@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { Form } from 'semantic-ui-react';
 import { useMutation } from '@apollo/client';
-import { REGISTER_USER } from '../graphql/mutations';
+
+import { AuthContext } from '../context/Auth';
+import { REGISTER_USER } from '../graphql/Mutations';
 import './components.css'
 
 
 const SignUpWidget = () => {
+    const context = useContext(AuthContext);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -23,7 +26,8 @@ const SignUpWidget = () => {
             confirmPassword
         },
         onCompleted: (data: any) => {
-            console.log(data);
+            //send user data to context
+            context.login(data.registerUser);
             navigate('/profile');
         },
         onError: (err: any) => {
