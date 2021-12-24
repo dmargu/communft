@@ -15,12 +15,7 @@ export const REGISTER_USER = gql`
             confirmPassword: $confirmPassword
         }) {
             id
-            username
             token
-            connectedWallets{
-                walletAddress
-                walletProvider
-            }
         }
     }
 `;
@@ -38,11 +33,14 @@ export const ADD_WALLET = gql`
     mutation addWallet($walletAddress: String!, $walletProvider: String!) {
         addWallet(walletAddress: $walletAddress, walletProvider: $walletProvider) {
             id
-            username
-            connectedWallets{
-                walletAddress
-                walletProvider
-            }
+        }
+    }
+`;
+
+export const DELETE_WALLET = gql`
+    mutation deleteWallet($walletAddress: String!) {
+        deleteWallet(walletAddress: $walletAddress) {
+            id
         }
     }
 `;

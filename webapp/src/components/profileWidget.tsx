@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 import { useMutation, useQuery } from '@apollo/client';
 
 import { AuthContext } from '../context/Auth';
-import { ADD_WALLET } from '../graphql/Mutations';
+import { ADD_WALLET, DELETE_WALLET } from '../graphql/Mutations';
 import { GET_USER } from '../graphql/Queries';
 import './components.css';
 
@@ -23,15 +23,26 @@ const Profile = () => {
     const [metamaskFeedback, setMetamaskFeedback] = useState('');
     const [connectSuccess, setConnectSuccess] = useState(false);
 
-    const userRes = useQuery(GET_USER);
 
-    const [addWalletAddress, { loading, error }] = useMutation(ADD_WALLET, {
+    const userRes = useQuery(GET_USER); //should eventually add { skip } here and only query once and then update cache... the effect isn't working though so leaving it out for now
+
+    const [addWalletAddress, addWalletRes] = useMutation(ADD_WALLET, {
         onCompleted: (data: any) => {
             setMetamaskFeedback(`Wallet successfully added to your profile.`);
             setConnectSuccess(true);
         },
         onError: (err: any) => {
-            console.log('err', err);
+            setMetamaskFeedback(`${err.message}`);
+            setConnectSuccess(false);
+        }
+    });
+
+    const [deleteWalletAddress, deleteWalletRes] = useMutation(DELETE_WALLET, {
+        onCompleted: (data: any) => {
+            setMetamaskFeedback(`Wallet successfully deleted from your profile.`);
+            setConnectSuccess(true);
+        },
+        onError: (err: any) => {
             setMetamaskFeedback(`${err.message}`);
             setConnectSuccess(false);
         }
@@ -64,6 +75,10 @@ const Profile = () => {
           }
     };
 
+    const handleWalletDelete = (address: String) => {
+        deleteWalletAddress({ variables: { walletAddress: address } });
+    }
+
     return (
         <div>
             {userRes.data &&
@@ -73,7 +88,12 @@ const Profile = () => {
                     {metamaskFeedback !== '' && connectSuccess && <p className='GreenText'>{metamaskFeedback}</p>}
                     {metamaskFeedback !== '' && !connectSuccess && <p className='RedText'>{metamaskFeedback}</p>}
                     <p>{userRes.data.getUser.username}'s current Metamask addresses:</p>
-                    {userRes.data.getUser.connectedWallets.map((wallet: Wallet) => <p key={wallet.walletAddress}>{wallet.walletAddress}</p>)}
+                    {userRes.data.getUser.connectedWallets.map((wallet: Wallet) =>
+                        <div className='FieldContainer'> 
+                            <p key={wallet.walletAddress}>{wallet.walletAddress}</p>
+                            <button onClick={() => handleWalletDelete(wallet.walletAddress)}>Remove</button>
+                        </div>
+                    )}
                     <button onClick={logout}>Log Out</button>
                 </div>
             }

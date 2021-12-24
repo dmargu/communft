@@ -9,9 +9,7 @@ const checkAuth = require('../../utils/checkAuth');
 
 function generateToken(user) {
     return jwt.sign({
-        id: user.id,
-        email: user.email,
-        username: user.username
+        id: user.id // we just need the id to check for context stuff
     }, process.env.JWT_SECRET, { expiresIn: '3h' }
     );
 }
@@ -28,7 +26,6 @@ module.exports = {
         },
         async getUser(_, {}, context) { //TEST THIS
             const user = checkAuth(context);
-            console.log('USER', user);
             
             try {
                 const userInDb = await User.findById(user.id);
@@ -158,9 +155,9 @@ module.exports = {
                 //make sure wallet address is in connectedWallets
                 const walletAlreadyConnected = userInDb.connectedWallets.some(wallet => wallet.walletAddress === walletAddress);
                 if (!walletAlreadyConnected) {
-                    throw new UserInputError('Wallet not connected', {
+                    throw new UserInputError('This wallet is not connected to your profile.', {
                         errors: {
-                            walletAddress: 'This wallet is not connected'
+                            walletAddress: 'This wallet is not connected to your profile.'
                         }
                     });
                 }
