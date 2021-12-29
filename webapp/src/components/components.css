@@ -2,9 +2,17 @@
     align-items: center;
 }
 
+.FieldContainerBetween {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 15px;
+}
+
 .FieldContainer {
     display: flex;
     flex-direction: row;
+    position: relative;
 }
 
 .GreenText {
@@ -29,4 +37,40 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+
+.TextDown {
+    padding-top: 15px;
+}
+
+.ButtonLeft {
+    position: absolute;
+    cursor: pointer;
+    left: 21vw;
+}
+
+.PaddingDown {
+    padding-bottom: 15px;
+}
+
+.ProfileContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    padding: 15px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+    width: 42vw;
+}
+
+.NotesContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    padding: 15px;
+    background-color: lightgray;
 }

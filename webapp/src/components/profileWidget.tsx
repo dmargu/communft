@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { ethers } from 'ethers';
 import { useMutation, useQuery } from '@apollo/client';
-
+import { Button } from 'semantic-ui-react';
+import { IoMdRemoveCircle } from 'react-icons/io';
 import { AuthContext } from '../context/Auth';
 import { ADD_WALLET, DELETE_WALLET } from '../graphql/Mutations';
 import { GET_USER } from '../graphql/Queries';
@@ -18,13 +19,14 @@ interface Wallet {
     walletProvider: string;
 }
 
-const Profile = () => {
+const Profile = () => { //fix add/delete wallet after state update and add all of the loading conditions
     const { logout } = useContext(AuthContext);
     const [metamaskFeedback, setMetamaskFeedback] = useState('');
     const [connectSuccess, setConnectSuccess] = useState(false);
 
 
     const userRes = useQuery(GET_USER); //should eventually add { skip } here and only query once and then update cache... the effect isn't working though so leaving it out for now
+    console.log('new use res', userRes);
 
     const [addWalletAddress, addWalletRes] = useMutation(ADD_WALLET, {
         onCompleted: (data: any) => {
@@ -76,26 +78,59 @@ const Profile = () => {
     };
 
     const handleWalletDelete = (address: String) => {
-        deleteWalletAddress({ variables: { walletAddress: address } });
+        const shouldDel = window.confirm(`Are you sure you want to delete wallet ${address} from your profile?`);
+        if (shouldDel) {
+            deleteWalletAddress({ variables: { walletAddress: address } });
+        }
     }
 
     return (
-        <div>
+        <div className="ProfileContainer">
+            <h1 className='TextDown'>Wallet Manager</h1>
+            {(userRes.loading || addWalletRes.loading || deleteWalletRes.loading) &&
+                <h1>Loading...</h1> 
+            }
             {userRes.data &&
                 <div>
-                    <p>To connect a different wallet, disconnect all current wallets (they will not be removed from your profile).</p>
-                    <button onClick={handleMetamaskClick}>Connect metamask wallet</button>
-                    {metamaskFeedback !== '' && connectSuccess && <p className='GreenText'>{metamaskFeedback}</p>}
-                    {metamaskFeedback !== '' && !connectSuccess && <p className='RedText'>{metamaskFeedback}</p>}
-                    <p>{userRes.data.getUser.username}'s current Metamask addresses:</p>
+                    <h4>Current Metamask addresses:</h4>
                     {userRes.data.getUser.connectedWallets.map((wallet: Wallet) =>
                         <div className='FieldContainer'> 
                             <p key={wallet.walletAddress}>{wallet.walletAddress}</p>
-                            <button onClick={() => handleWalletDelete(wallet.walletAddress)}>Remove</button>
+                            <div className='ButtonLeft'>
+                                <IoMdRemoveCircle 
+                                    onClick={() => handleWalletDelete(wallet.walletAddress)}
+                                    size='20px'
+                                    color='red'
+                                />
+                            </div>
                         </div>
                     )}
-                    <button onClick={logout}>Log Out</button>
+                    {metamaskFeedback !== '' && connectSuccess && <p className='GreenText'>{metamaskFeedback}</p>}
+                    {metamaskFeedback !== '' && !connectSuccess && <p className='RedText'>{metamaskFeedback}</p>}
+                    <div className='PaddingDown'>
+                        <Button primary onClick={handleMetamaskClick} className='ButtonRadius'>Connect Metamask wallet</Button>
+                    </div>
+                    <div className='NotesContainer'>
+                        <h1>Notes</h1>
+                        <ul>
+                            <li>
+                                <p>We currently only support Metamask wallets. If you use a different one you would like integrated please contact us in discord.</p>
+                            </li>
+                            <li>
+                                <p className='TextDown'>If you are struggling to connect a different wallet, disconnect all current wallets (they will not be removed from your profile).</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className='FieldContainerBetween'>
+                        <h4 className='TextDown'>Logged in as {userRes.data.getUser.username}</h4>
+                        <Button onClick={logout}>Log Out</Button>
+                    </div>
                 </div>
+            }
+            {userRes.error &&
+                <div>
+                    <h4>Error: {userRes.error.message}</h4>
+                </div> 
             }
         </div>
     )
