@@ -19,18 +19,20 @@ interface Wallet {
     walletProvider: string;
 }
 
-const Profile = () => { //fix add/delete wallet after state update and add all of the loading conditions
+//TODO: weird bug where if you log out and then sign up the right username doesn't show up until you refresh the page.
+// I know this is a UI problem because I looked at the auth tokens and they are different.
+
+const Profile = () => { //TODO: fix the userRes query it's not updating after a rerender
     const { logout } = useContext(AuthContext);
     const [metamaskFeedback, setMetamaskFeedback] = useState('');
     const [connectSuccess, setConnectSuccess] = useState(false);
 
 
     const userRes = useQuery(GET_USER); //should eventually add { skip } here and only query once and then update cache... the effect isn't working though so leaving it out for now
-    console.log('new use res', userRes);
 
     const [addWalletAddress, addWalletRes] = useMutation(ADD_WALLET, {
         onCompleted: (data: any) => {
-            setMetamaskFeedback(`Wallet successfully added to your profile.`);
+            setMetamaskFeedback(`Wallet successfully added to your profile. Refresh to see the change.`);
             setConnectSuccess(true);
         },
         onError: (err: any) => {
@@ -41,7 +43,7 @@ const Profile = () => { //fix add/delete wallet after state update and add all o
 
     const [deleteWalletAddress, deleteWalletRes] = useMutation(DELETE_WALLET, {
         onCompleted: (data: any) => {
-            setMetamaskFeedback(`Wallet successfully deleted from your profile.`);
+            setMetamaskFeedback(`Wallet successfully deleted from your profile. Refresh to see the change.`);
             setConnectSuccess(true);
         },
         onError: (err: any) => {
