@@ -10,8 +10,8 @@ module.exports.validateRegisterInput = (
     } else if (username.length < 3 || username.length > 15) {
         errors.username = 'Username must be between 3 and 15 characters';
     } else {
-        //make sure username only contains letters, numbers, dashes, and underscores
-        const usernameRegex = /^[a-zA-Z0-9-_]+$/;
+        //make sure username only contains letters, numbers, dashes, underscores, and periods
+        const usernameRegex = /^[a-zA-Z0-9-_.]+$/;
         if (!usernameRegex.test(username)) {
             errors.username = 'Username must only contain letters, numbers, dashes, and underscores';
         }
