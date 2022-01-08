@@ -1,7 +1,7 @@
 import React from 'react';
 import { registerRootComponent } from 'expo';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-import RootComponent from './App';
+import RootComponent from './src/App';
 
 // Initialize Apollo Client
 const client = new ApolloClient({ //if ur getting a network error check to see if the IP address is different
