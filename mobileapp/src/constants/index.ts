@@ -1,0 +1,140 @@
+import { Dimensions } from 'react-native';
+
+export const dimensions = {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  };
+  
+const { width, height } = Dimensions.get('window'); //not sure if this line of code is necessary
+
+// Use iPhone13 as base size which is 390 x 844
+const baseWidth = 390;
+const baseHeight = 844;
+
+const scaleWidth = width / baseWidth;
+const scaleHeight = height / baseHeight;
+const scale = Math.min(scaleWidth, scaleHeight);
+
+export const scaledSize = (size: number) => Math.ceil((size * scale));
+
+export const containerSizes = {
+  halfHeight: dimensions.height / 2
+};
+
+export const colors = {
+    primaryBlue: '#3772FF',
+    primaryBlueVariant: '#2956BF',
+    primaryPurple: '#9757D7',
+    primaryRed: '#EF466F',
+    primaryGreen: '#45B26B',
+
+    secondaryBlue: '#4BC9F0',
+    secondaryGray: '#E4D7CF',
+    secondaryYellow: '#FFD166',
+    secondaryPurple: '#CDB4DB',
+
+    neutralOne: '#141416', // dark black
+    neutralTwo: '#23262F', // medium black
+    neutralThree: '#353945', // light black
+    neutralFour: '#777E90', // dark gray
+    neutralFive: '#B1B5C3', // medium gray
+    neutralSix: '#E6E8EC', // light gray
+    neutralSeven: '#F4F5F6', // very light gray
+    neutralEight: '#FCFCFD', // white
+};
+
+export const fonts = {
+    hero: {
+        fontFamily: 'DMSans_400Regular',      
+        fontSize: scaledSize(96),
+        lineHeight: scaledSize(96),
+        fontWeight: 'bold'
+    },
+    headlineOne: {
+        fontFamily: 'DMSans_400Regular',
+        fontSize: scaledSize(64),
+        lineHeight: scaledSize(64),
+        fontWeight: 'bold'
+    },
+    headlineTwo: {
+        fontFamily: 'DMSans_400Regular',
+        fontSize: scaledSize(56),
+        lineHeight: scaledSize(56),
+        fontWeight: 'bold'
+    },
+    headlineThree: {
+        fontFamily: 'DMSans_400Regular',
+        fontSize: scaledSize(48),
+        lineHeight: scaledSize(48),
+        fontWeight: 'bold'
+    },
+    headlineFour: {
+        fontFamily: 'DMSans_400Regular',
+        fontSize: scaledSize(40),
+        lineHeight: scaledSize(40),
+        fontWeight: 'bold'
+    },
+    bodyOne: {
+        fontFamily: 'Poppins_400Regular',
+        fontSize: scaledSize(24),
+        lineHeight: scaledSize(32)
+    },
+    bodyOneBold: {
+        fontFamily: 'Poppins_600SemiBold',
+        fontSize: scaledSize(24),
+        lineHeight: scaledSize(32)
+    },
+    bodyTwo: {
+        fontFamily: 'Poppins_400Regular',
+        fontSize: scaledSize(16), 
+        lineHeight: scaledSize(24)
+    },
+    bodyTwoBold: {
+        fontFamily: 'Poppins_500Medium',
+        fontSize: scaledSize(16),
+        lineHeight: scaledSize(24)
+    },
+    captionOne: {
+        fontFamily: 'Poppins_400Regular',
+        fontSize: scaledSize(14),
+        lineHeight: scaledSize(24)
+    },
+    captionOneBold: {
+        fontFamily: 'Poppins_500Medium',
+        fontSize: scaledSize(14),
+        lineHeight: scaledSize(24)
+    },
+    captionTwo: {
+        fontFamily: 'Poppins_400Regular',
+        fontSize: scaledSize(12),
+        lineHeight: scaledSize(20)
+    },
+    captionTwoBold: {
+        fontFamily: 'Poppins_600SemiBold',
+        fontSize: scaledSize(12),
+        lineHeight: scaledSize(20)
+    },
+    hairlineOne: {
+        fontFamily: 'Poppins_700Bold',
+        fontSize: scaledSize(16),
+        lineHeight: scaledSize(16)
+    },
+    hairlineTwo: {
+        fontFamily: 'Poppins_700Bold',
+        fontSize: scaledSize(12),
+        lineHeight: scaledSize(12)
+    },
+    buttonOne: {
+      fontFamily: 'DMSans_400Regular',
+      fontSize: scaledSize(16),
+      lineHeight: scaledSize(16),
+      fontWeight: 'bold'
+    },
+    buttonTwo: {
+      fontFamily: 'DMSans_400Regular',
+      fontSize: scaledSize(14),
+      lineHeight: scaledSize(16),
+      fontWeight: 'bold'
+    }
+};
+
