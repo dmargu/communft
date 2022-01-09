@@ -1,8 +1,5 @@
-/**
- * Learn more about Light and Dark modes:
- * https://docs.expo.io/guides/color-schemes/
- */
-
+//I'M GOING TO IGNORE THIS FILE FOR NOW, COME BACK WHEN READY TO ADD LIGHT THEME TO PROJECT
+/*
 import { Text as DefaultText, View as DefaultView } from 'react-native';
 
 import Colors from '../constants/Colors';
@@ -42,4 +39,4 @@ export function View(props: ViewProps) {
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
 
   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
-}
+}*/

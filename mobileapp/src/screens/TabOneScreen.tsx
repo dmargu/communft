@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text, View} from 'react-native';
 import { useQuery } from '@apollo/client';
 import * as Location from 'expo-location';
 
 import { GET_MESSAGES } from '../graphql/queries';
 import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../../types';
+import { colors, fonts } from '../constants';
 
 //make a type interface for location object
 interface Location {
@@ -52,8 +52,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
+      <View style={styles.separator} />
       {loading && <Text>Loading</Text>}
       {error && <Text>Error</Text>}
       {data &&
@@ -70,8 +69,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: fonts.bodyOneBold.fontSize,
+    fontFamily: fonts.bodyOneBold.fontFamily,
+    lineHeight: fonts.bodyOneBold.lineHeight
   },
   separator: {
     marginVertical: 30,

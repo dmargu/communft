@@ -5,14 +5,12 @@ export const dimensions = {
     height: Dimensions.get('window').height,
   };
   
-const { width, height } = Dimensions.get('window'); //not sure if this line of code is necessary
-
 // Use iPhone13 as base size which is 390 x 844
 const baseWidth = 390;
 const baseHeight = 844;
 
-const scaleWidth = width / baseWidth;
-const scaleHeight = height / baseHeight;
+const scaleWidth = dimensions.width / baseWidth;
+const scaleHeight = dimensions.height / baseHeight;
 const scale = Math.min(scaleWidth, scaleHeight);
 
 export const scaledSize = (size: number) => Math.ceil((size * scale));
@@ -43,7 +41,7 @@ export const colors = {
     neutralEight: '#FCFCFD', // white
 };
 
-export const fonts = {
+export const fonts = { //most of these will never get use I'm just doing this to keep parity with our design system
     hero: {
         fontFamily: 'DMSans_400Regular',      
         fontSize: scaledSize(96),
