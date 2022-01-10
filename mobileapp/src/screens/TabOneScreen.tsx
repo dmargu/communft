@@ -5,7 +5,7 @@ import * as Location from 'expo-location';
 
 import { GET_MESSAGES } from '../graphql/queries';
 import EditScreenInfo from '../components/EditScreenInfo';
-import { RootTabScreenProps } from '../../types';
+import { RootTabScreenProps } from '../types';
 import { colors, fonts } from '../constants';
 
 //make a type interface for location object
@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: colors.neutralOne,
   },
   title: {
     fontSize: fonts.bodyOneBold.fontSize,

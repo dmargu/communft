@@ -41,36 +41,33 @@ export const colors = {
     neutralEight: '#FCFCFD', // white
 };
 
+//TODO: should add in react natives pixel ratio here, it shows what setting the user has for font sizes, look at docs
+
 export const fonts = { //most of these will never get use I'm just doing this to keep parity with our design system
     hero: {
-        fontFamily: 'DMSans_400Regular',      
+        fontFamily: 'DMSans_700Bold',      
         fontSize: scaledSize(96),
         lineHeight: scaledSize(96),
-        fontWeight: 'bold'
     },
     headlineOne: {
-        fontFamily: 'DMSans_400Regular',
+        fontFamily: 'DMSans_700Bold',
         fontSize: scaledSize(64),
         lineHeight: scaledSize(64),
-        fontWeight: 'bold'
     },
     headlineTwo: {
-        fontFamily: 'DMSans_400Regular',
+        fontFamily: 'DMSans_700Bold',
         fontSize: scaledSize(56),
         lineHeight: scaledSize(56),
-        fontWeight: 'bold'
     },
     headlineThree: {
-        fontFamily: 'DMSans_400Regular',
+        fontFamily: 'DMSans_700Bold',
         fontSize: scaledSize(48),
         lineHeight: scaledSize(48),
-        fontWeight: 'bold'
     },
     headlineFour: {
-        fontFamily: 'DMSans_400Regular',
+        fontFamily: 'DMSans_700Bold',
         fontSize: scaledSize(40),
         lineHeight: scaledSize(40),
-        fontWeight: 'bold'
     },
     bodyOne: {
         fontFamily: 'Poppins_400Regular',
@@ -123,16 +120,14 @@ export const fonts = { //most of these will never get use I'm just doing this to
         lineHeight: scaledSize(12)
     },
     buttonOne: {
-      fontFamily: 'DMSans_400Regular',
+      fontFamily: 'DMSans_700Bold',
       fontSize: scaledSize(16),
       lineHeight: scaledSize(16),
-      fontWeight: 'bold'
     },
     buttonTwo: {
-      fontFamily: 'DMSans_400Regular',
+      fontFamily: 'DMSans_700Bold',
       fontSize: scaledSize(14),
       lineHeight: scaledSize(16),
-      fontWeight: 'bold'
     }
 };
 
