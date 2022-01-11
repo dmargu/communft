@@ -9,8 +9,8 @@ import { Pressable } from 'react-native';
 import { colors, scaledSize, fonts } from '../constants';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
+import HomeScreen from '../screens/HomeScreen';
+import PrivateProfileScreen from '../screens/PrivateProfileScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
@@ -47,10 +47,10 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: colors.primaryBlue,
-        tabBarInactiveTintColor: colors.neutralFive,
+        tabBarInactiveTintColor: colors.neutralEight,
         tabBarStyle: {
           backgroundColor: colors.neutralOne,
           borderTopWidth: 0
@@ -59,15 +59,29 @@ function BottomTabNavigator() {
           fontFamily: fonts.buttonOne.fontFamily,
           fontSize: fonts.buttonOne.fontSize,
           lineHeight: fonts.buttonOne.lineHeight
-        }
+        },
+        headerStyle: {
+          backgroundColor: colors.neutralOne,
+          borderBottomWidth: 0,
+          elevation: 0,
+          shadowOpacity: 0
+        },
+        headerTitleStyle: {
+          fontFamily: fonts.bodyOneBold.fontFamily,
+          fontSize: fonts.bodyOneBold.fontSize,
+          lineHeight: fonts.bodyOneBold.lineHeight,
+          color: colors.neutralEight
+        },
       }}
     >
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
+        name="Home"
+        component={HomeScreen}
+        options={({ navigation }: RootTabScreenProps<'Home'>) => ({ //should eventually make opacity 0.5 on press
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="message-text" size={scaledSize(30)} color={color} />,
           tabBarLabel: () => false,
+          headerTitle: 'Chats',
+          headerTitleAlign: 'left',
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate('Modal')}
@@ -75,9 +89,9 @@ function BottomTabNavigator() {
                 opacity: pressed ? 0.5 : 1,
               })}>
               <FontAwesome
-                name="info-circle"
+                name="pencil-square-o"
                 size={scaledSize(30)}
-                color={colors.neutralOne}
+                color={colors.neutralEight}
                 style={{ marginRight: 15 }}
               />
             </Pressable>
@@ -85,11 +99,12 @@ function BottomTabNavigator() {
         })}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
+        name="PrivateProfile"
+        component={PrivateProfileScreen}
         options={{
           tabBarIcon: ({ color }) => <Ionicons name="person" size={scaledSize(30)} color={color} />,
-          tabBarLabel: () => false        
+          tabBarLabel: () => false,
+          headerTitle: 'Profile'      
         }}
       />
     </BottomTab.Navigator>
