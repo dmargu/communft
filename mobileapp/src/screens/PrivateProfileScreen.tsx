@@ -1,13 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
-
 export default function PrivateProfileScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab Two</Text>
       <View style={styles.separator} />
-      <EditScreenInfo path="/screens/PrivateProfileScreen.tsx" />
+      <Text>This is the private profile screen</Text>
     </View>
   );
 }

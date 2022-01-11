@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View, FlatList} from 'react-native';
 import { useQuery } from '@apollo/client';
 import * as Location from 'expo-location';
 
+import ChatPreview from '../components/ChatPreview'
 import { GET_MESSAGES } from '../graphql/queries';
-import EditScreenInfo from '../components/EditScreenInfo';
 import { RootTabScreenProps } from '../types';
-import { colors, fonts } from '../constants';
+import { colors, fonts, dimensions } from '../constants';
 
 //make a type interface for location object
 interface Location {
@@ -25,6 +25,8 @@ interface Location {
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
   const [location, setLocation] = useState<Location>();
   const [errorMsg, setErrorMsg] = useState('');
+
+  console.log(dimensions);
 
   const { loading, error, data } = useQuery(GET_MESSAGES);
   if (error) {
@@ -51,7 +53,12 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
+      <ChatPreview />
+      <ChatPreview />
+      <ChatPreview />
+      <ChatPreview />
+      <ChatPreview />
+      <ChatPreview />
       <View style={styles.separator} />
       {loading && <Text>Loading</Text>}
       {error && <Text>Error</Text>}
@@ -64,9 +71,6 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: colors.neutralOne,
   },
   title: {
