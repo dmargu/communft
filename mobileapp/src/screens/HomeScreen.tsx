@@ -6,7 +6,7 @@ import * as Location from 'expo-location';
 import ChatPreview from '../components/ChatPreview'
 import { GET_MESSAGES } from '../graphql/queries';
 import { RootTabScreenProps } from '../types';
-import { colors, fonts, dimensions } from '../constants';
+import { colors, fonts, dimensions, scaledSize } from '../constants';
 
 //make a type interface for location object
 interface Location {
@@ -21,6 +21,38 @@ interface Location {
   },
   timestamp: number | null
 }
+
+//dummy data that follows ChatPreviewProps
+const dummyData = [
+  {
+    readMessage: false,
+    imgSource: '../../assets/images/punk6529.png',
+    username: 'gigachad',
+    time: '12:05 PM',
+    message: 'wow I really committed that absolutely heinous comment to git. hopefully no one goes back and reads it.'
+  },
+  {
+    readMessage: true,
+    imgSource: '../../assets/images/punk6529.png',
+    username: 'misterJawn',
+    time: 'Yesterday',
+    message: 'yea that would be pretty embarassing. Especially if they see these comments too and instead of coming to me put this on a presentation or something.'
+  },
+  {
+    readMessage: false,
+    imgSource: '../../assets/images/punk6529.png',
+    username: 'marvin',
+    time: '7:32 PM',
+    message: 'just kidding. whoever we hire hopefully isnt crazy enough to go this far back and read the commits. That would be fucking psycho.'
+  },
+  {
+    readMessage: true,
+    imgSource: '../../assets/images/punk6529.png',
+    username: 'whodoutinkuriam',
+    time: 'Dec 31st',
+    message: 'lol'
+  }
+]
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
   const [location, setLocation] = useState<Location>();
@@ -53,12 +85,19 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
 
   return (
     <View style={styles.container}>
-      <ChatPreview />
-      <ChatPreview />
-      <ChatPreview />
-      <ChatPreview />
-      <ChatPreview />
-      <ChatPreview />
+      <FlatList 
+        data={dummyData}
+        renderItem={({ item }) => 
+          <ChatPreview 
+            readMessage={item.readMessage} 
+            imgSource={item.imgSource} 
+            username={item.username} 
+            time={item.time} 
+            message={item.message} 
+          />
+        }
+        keyExtractor={(item, index) => item.username + index}
+      />
       <View style={styles.separator} />
       {loading && <Text>Loading</Text>}
       {error && <Text>Error</Text>}
@@ -72,6 +111,8 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.neutralOne,
+    flex: 1,
+    paddingTop: scaledSize(10)
   },
   title: {
     fontSize: fonts.bodyOneBold.fontSize,

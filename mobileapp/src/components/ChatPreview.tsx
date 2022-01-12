@@ -1,15 +1,39 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { ListItem, Avatar, Badge } from 'react-native-elements';
+import { ListItem, Avatar, Badge, Button } from 'react-native-elements';
 
 import { colors, fonts, scaledSize, dimensions } from '../constants';
 
-const ChatPreview = () => {
-    const [showBadge, changeBadge] = useState(true);
+interface ChatPreviewProps {
+    readMessage: boolean;
+    imgSource: string;
+    username: string;
+    time: string;
+    message: string;
+}
+
+const ChatPreview = (props: ChatPreviewProps) => {
+    const { readMessage, imgSource, username, time, message } = props;
     return (
-        <ListItem.Swipeable containerStyle={styles.container}>
+        <ListItem.Swipeable 
+            containerStyle={styles.container}
+            leftContent={
+                <Button
+                  title="Info"
+                  icon={{ name: 'info', color: 'white' }}
+                  buttonStyle={{ minHeight: '100%' }}
+                />
+              }
+              rightContent={
+                <Button
+                  title="Delete"
+                  icon={{ name: 'delete', color: 'white' }}
+                  buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
+                />
+              }
+        >
             <Badge
-                badgeStyle={showBadge ? styles.badgeStyleActive : styles.badgeStyleDisabled}
+                badgeStyle={readMessage ? styles.badgeStyleActive : styles.badgeStyleDisabled}
                 containerStyle={styles.badgeContainer}
             />
             <Avatar
@@ -19,12 +43,10 @@ const ChatPreview = () => {
             />
             <ListItem.Content>
                 <View style={{ flexDirection: 'row', alignContent: 'space-between', alignItems: 'center' }}>
-                    <ListItem.Title style={styles.username}>gigachad</ListItem.Title>
-                    <ListItem.Subtitle style={styles.time}>12:05 PM</ListItem.Subtitle>
+                    <ListItem.Title style={styles.username}>{username}</ListItem.Title>
+                    <ListItem.Subtitle style={styles.time}>{time}</ListItem.Subtitle>
                 </View>
-                <Text style={styles.messagePreview} numberOfLines={2} ellipsizeMode='tail'>
-                    here's my message below, you should suck on my cock, my big fat fucking cock you little pussy
-                </Text>
+                <Text style={styles.messagePreview} numberOfLines={2} ellipsizeMode='tail'>{message}</Text>
             </ListItem.Content>
         </ListItem.Swipeable>
     );
@@ -32,7 +54,9 @@ const ChatPreview = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'transparent',
+        backgroundColor: colors.neutralOne,
+        flex: 1,
+        height: scaledSize(90)
     },
     badgeStyleActive: {
         backgroundColor: colors.primaryBlue,
@@ -46,12 +70,7 @@ const styles = StyleSheet.create({
         borderColor: colors.neutralOne,
     },
     badgeContainer: {
-    },
-    usernameDateContainer: {
-        flexShrink: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+        //paddingLeft: 10
     },
     username: {
         flex: 1,
