@@ -8,14 +8,14 @@ import { colors, fonts, scaledSize, dimensions } from '../constants';
 interface ChatPreviewProps {
     readMessage: boolean;
     imgUri: string;
-    username: string;
+    chatPreviewTitle: string;
     time: string;
     message: string;
     id: number
 }
 
 const ChatPreview = (props: ChatPreviewProps) => {
-    const { readMessage, imgUri, username, time, message, id } = props;
+    const { readMessage, imgUri, chatPreviewTitle, time, message, id } = props;
     const navigation = useNavigation();
 
     const handlePress = () => {
@@ -37,8 +37,8 @@ const ChatPreview = (props: ChatPreviewProps) => {
                             size={scaledSize(50)}
                         />
                     </View>
-                    <View style={styles.usernameMessageContainer}>
-                        <Text style={styles.username}>{username}</Text>
+                    <View style={styles.textPreviewContainer}>
+                        <Text style={styles.chatPreviewTitle}>{chatPreviewTitle}</Text>
                         <Text style={styles.messagePreview} numberOfLines={2} ellipsizeMode='tail'>{message}</Text>
                     </View>
                 </View>
@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     leftContainer: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        flex: 1
     },
     badgeAvatarContainer: {
         flexDirection: 'row',
@@ -78,9 +79,10 @@ const styles = StyleSheet.create({
     badgeContainer: {
         //paddingLeft: 10
     },
-    usernameMessageContainer: {
+    textPreviewContainer: {
+        width: '92%'  //this isn't perfect but it's good enough for now
     },
-    username: {
+    chatPreviewTitle: {
         color: colors.neutralEight,
         fontFamily: fonts.bodyTwoBold.fontFamily,
         fontSize: fonts.bodyTwoBold.fontSize,
@@ -101,38 +103,3 @@ const styles = StyleSheet.create({
 });
 
 export default ChatPreview;
-
-/*<ListItem.Swipeable 
-    containerStyle={styles.container}
-    leftContent={
-        <Button
-            title="Info"
-            icon={{ name: 'info', color: 'white' }}
-            buttonStyle={{ minHeight: '100%' }}
-        />
-        }
-        rightContent={
-        <Button
-            title="Delete"
-            icon={{ name: 'delete', color: 'white' }}
-            buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
-        />
-        }
->
-    <Badge
-        badgeStyle={readMessage ? styles.badgeStyleActive : styles.badgeStyleDisabled}
-        containerStyle={styles.badgeContainer}
-    />
-    <Avatar
-        rounded
-        source={{ uri: imgUri }}               
-        size={scaledSize(50)}
-    />
-    <ListItem.Content>
-        <View style={{ flexDirection: 'row', alignContent: 'space-between', alignItems: 'center' }}>
-            <ListItem.Title style={styles.username}>{username}</ListItem.Title>
-            <ListItem.Subtitle style={styles.time}>{time}</ListItem.Subtitle>
-        </View>
-        <Text style={styles.messagePreview} numberOfLines={2} ellipsizeMode='tail'>{message}</Text>
-    </ListItem.Content>
-</ListItem.Swipeable>*/

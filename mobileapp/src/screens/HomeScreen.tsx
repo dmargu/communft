@@ -59,13 +59,13 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
           <ChatPreview 
             readMessage={item.readMessage} 
             imgUri={item.imgUri} 
-            username={item.username} 
+            chatPreviewTitle={item.chatPreviewTitle} 
             time={item.time} 
             message={item.message} 
             id={item.groupID}
           />
         }
-        keyExtractor={(item, index) => item.username + index}
+        keyExtractor={(item, index) => item.chatPreviewTitle + index}
       />
     </View>
   );
