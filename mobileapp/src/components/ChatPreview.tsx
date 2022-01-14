@@ -19,7 +19,10 @@ const ChatPreview = (props: ChatPreviewProps) => {
     const navigation = useNavigation();
 
     const handlePress = () => {
-        navigation.navigate('ChatRoomScreen', { chatID: id });
+        navigation.navigate('ChatRoomScreen', { 
+            chatID: id ,
+            chatTitle: chatPreviewTitle
+        });
     }
 
     return (
@@ -38,7 +41,7 @@ const ChatPreview = (props: ChatPreviewProps) => {
                         />
                     </View>
                     <View style={styles.textPreviewContainer}>
-                        <Text style={styles.chatPreviewTitle}>{chatPreviewTitle}</Text>
+                        <Text style={styles.chatPreviewTitle} numberOfLines={1}>{chatPreviewTitle}</Text>
                         <Text style={styles.messagePreview} numberOfLines={2} ellipsizeMode='tail'>{message}</Text>
                     </View>
                 </View>
@@ -87,6 +90,7 @@ const styles = StyleSheet.create({
         fontFamily: fonts.bodyTwoBold.fontFamily,
         fontSize: fonts.bodyTwoBold.fontSize,
         lineHeight: fonts.bodyTwoBold.lineHeight,
+        width: '82%'
     },
     messagePreview: {
         color: colors.neutralFour,

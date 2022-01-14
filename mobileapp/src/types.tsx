@@ -12,7 +12,10 @@ export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   Modal: undefined;
   NotFound: undefined;
-  ChatRoomScreen: { chatID: number };
+  ChatRoomScreen: { 
+    chatID: number,
+    chatTitle: string 
+  };
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<

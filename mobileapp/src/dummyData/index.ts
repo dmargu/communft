@@ -11,7 +11,7 @@ export const messagePreviewData = [
     {
       readMessage: true,
       imgUri: 'https://lh3.googleusercontent.com/GNtcI-lDo_Ru_8em28UTYQh1gZ8eqsD8hJN8pY3chYS44Me_y0ALMuD--mPQNWikHbTaGJSJ08S9NKmky5v3UuniVV7HyJGarH4N2A=w600',
-      chatPreviewTitle: 'misterJawn',
+      chatPreviewTitle: 'misterJawn, thatDude, wanker, gfcLover',
       time: 'Yesterday',
       message: 'yea that would be pretty embarassing. ',
       groupID: 2

@@ -12,6 +12,7 @@ import NotFoundScreen from '../screens/NotFoundScreen';
 import HomeScreen from '../screens/HomeScreen';
 import PrivateProfileScreen from '../screens/PrivateProfileScreen';
 import ChatRoomScreen from '../screens/ChatRoomScreen';
+import GoBackCircle from '../components/common/GoBackCircle';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 
 
@@ -33,7 +34,39 @@ function RootNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="ChatRoomScreen" component={ChatRoomScreen} options={{ title: 'Chat' }} />
+      <Stack.Screen 
+        name="ChatRoomScreen" 
+        component={ChatRoomScreen} 
+        options={({ route, navigation }) => ({ 
+          title: route.params.chatTitle,
+          headerStyle: {
+            backgroundColor: colors.neutralOne,
+            borderBottomWidth: 0,
+            elevation: 0,
+            shadowOpacity: 0
+          },
+          headerTitleStyle: {
+            fontFamily: fonts.bodyOneBold.fontFamily,
+            fontSize: fonts.bodyOneBold.fontSize,
+            lineHeight: fonts.bodyOneBold.lineHeight,
+            color: colors.neutralEight
+          },
+          headerLeft: () => (<GoBackCircle />),
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate('Modal')}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}>
+              <FontAwesome
+                name="pencil-square-o"
+                size={scaledSize(30)}
+                color={colors.neutralEight}
+              />
+            </Pressable>
+          ) 
+        })} 
+      />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
