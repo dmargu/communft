@@ -41,9 +41,9 @@ function RootNavigator() {
           title: route.params.chatTitle,
           headerStyle: {
             backgroundColor: colors.neutralOne,
-            borderBottomWidth: 0,
+            borderBottomWidth: 0, // this is not working for some reason
             elevation: 0,
-            shadowOpacity: 0
+            shadowOpacity: 0,
           },
           headerTitleStyle: {
             fontFamily: fonts.bodyOneBold.fontFamily,
@@ -58,8 +58,8 @@ function RootNavigator() {
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}>
-              <FontAwesome
-                name="pencil-square-o"
+              <Ionicons
+                name="people"
                 size={scaledSize(30)}
                 color={colors.neutralEight}
               />

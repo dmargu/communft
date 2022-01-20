@@ -23,7 +23,7 @@ interface Location {
   timestamp: number | null
 }
 
-export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
+export default function HomeScreen() {
   const [location, setLocation] = useState<Location>();
   const [errorMsg, setErrorMsg] = useState('');
 
