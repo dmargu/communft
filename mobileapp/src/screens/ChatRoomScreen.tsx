@@ -5,6 +5,7 @@ import { useNavigation  } from '@react-navigation/native';
 
 import { colors } from '../constants';
 import ChatMessage from '../components/ChatMessage';
+import MessageInput from '../components/MessageInput';
 import { messageData } from '../dummyData';
 
 
@@ -17,7 +18,8 @@ const ChatRoomScreen = () => { //TODO: android title is not working right, ios f
     return (
         <View style={styles.container}>
             <FlatList 
-                data={messageData}
+                data={messageData.reverse()} // inverting it and reversing messageData is buggy when messages stay the same across chats
+                inverted                     // inverts it every time it rerenders (ex. right, backwards, right, backwards)
                 renderItem={({ item }) => {
                     if (item.replyToMessageID) {
                         //find the message that matches replyToMessageID
@@ -51,6 +53,7 @@ const ChatRoomScreen = () => { //TODO: android title is not working right, ios f
                 }}
                 keyExtractor={(item, index) => item.messageSenderUsername + index}
             />
+            <MessageInput />
         </View>
     );
 }

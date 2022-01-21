@@ -23,7 +23,7 @@ interface Location {
   timestamp: number | null
 }
 
-export default function HomeScreen() {
+const HomeScreen = () => {
   const [location, setLocation] = useState<Location>();
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -77,3 +77,5 @@ const styles = StyleSheet.create({
     flex: 1,
   }
 });
+
+export default HomeScreen;
