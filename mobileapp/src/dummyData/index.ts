@@ -117,5 +117,13 @@ export const messageData = [
     messageSenderUsername: 'copabop',
     messageTime: '12:00',
     reactions: []
+  },
+  {
+    messageID: '6',
+    imgUri: 'https://lh3.googleusercontent.com/xMZ6ap6xHzzkbKwyupR7OGWuV4dVfpWt8XySXBxl9q7s2sYgnVXyhpuDMglZPYnXrqE3fyvHJF34VmcUDTkQNOfPfBZIBvXKnuNO=w600',  
+    message: 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consect et dolor. Lorem ipsum dolor sit amet et dolor. Lorem ipsum dolor sit amet et d', 
+    messageSenderUsername: 'copabop',
+    messageTime: '12:00',
+    reactions: []
   }
 ]

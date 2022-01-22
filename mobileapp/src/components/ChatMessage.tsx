@@ -1,8 +1,9 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { Avatar } from 'react-native-elements';
 
 import { colors, fonts, scaledSize } from '../constants';
+import ChatMessageOverlay from './ChatMessageOverlay';
 
 
 interface ChatMessageProps {
@@ -19,6 +20,7 @@ interface ChatMessageProps {
 }
 
 const ChatMessage = (props: ChatMessageProps) => {
+    const [overlayVisible, toggleOverlay] = useState(false);
     const { imgUri, messageSenderUsername, message, messageTime, reactions, replyMessageUsername, replyMessage } = props;
 
     //helper function to iterate through reactions and return an array of objects with the reaction and number of times it was in the array
@@ -36,47 +38,58 @@ const ChatMessage = (props: ChatMessageProps) => {
     };
 
     return (
-        <View>
-            {replyMessageUsername && 
-                <View style={styles.replyContainer}>
-                    <Text style={styles.replyUsername}>{replyMessageUsername}</Text>
-                    <Text style={styles.subText} numberOfLines={1} ellipsizeMode={'tail'}>{replyMessage}</Text>
-                </View>
-            }
-            <View style={styles.container}>
-                <View style={styles.leftContainer}>
-                    <Avatar
-                        rounded
-                        source={{ uri: imgUri }}               
-                        size={scaledSize(50)}
-                    />
-                </View>
-                <View style={styles.rightContainer}>
-                    <View style={styles.messageHeader}>
-                        <Text style={styles.username}>{messageSenderUsername}</Text>
-                        <Text style={styles.subText}>{messageTime}</Text>
+        <TouchableOpacity
+            onLongPress={(event: any) => {
+
+                toggleOverlay(true);
+            }}
+        >
+            <View style={{ position: 'relative' }}>
+                <ChatMessageOverlay
+                    overlayVisible={overlayVisible}
+                    toggleOverlay={() => toggleOverlay(!overlayVisible)}
+                />
+                {replyMessageUsername && 
+                    <View style={styles.replyContainer}>
+                        <Text style={styles.replyUsername}>{replyMessageUsername}</Text>
+                        <Text style={styles.subText} numberOfLines={1} ellipsizeMode={'tail'}>{replyMessage}</Text>
                     </View>
-                    <Text style={styles.message}>{message}</Text>
-                    {reactions.length > 0 &&
-                        <View style={styles.allReactionsContainer}>
-                            <FlatList
-                                horizontal
-                                showsHorizontalScrollIndicator={false}
-                                data={getReactionCounts(reactions)}
-                                keyExtractor={(item, index) => item.count + index.toString()}
-                                renderItem={({ item }) =>
-                                    <View style={styles.reactionContainer}>
-                                        <Text style={styles.reaction}>
-                                            {item.reaction} {item.count}
-                                        </Text>
-                                    </View>
-                                }
-                            />
-                        </View> 
-                    }
+                }
+                <View style={styles.container}>
+                    <View style={styles.leftContainer}>
+                        <Avatar
+                            rounded
+                            source={{ uri: imgUri }}               
+                            size={scaledSize(50)}
+                        />
+                    </View>
+                    <View style={styles.rightContainer}>
+                        <View style={styles.messageHeader}>
+                            <Text style={styles.username}>{messageSenderUsername}</Text>
+                            <Text style={styles.subText}>{messageTime}</Text>
+                        </View>
+                        <Text style={styles.message}>{message}</Text>
+                        {reactions.length > 0 &&
+                            <View style={styles.allReactionsContainer}>
+                                <FlatList
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    data={getReactionCounts(reactions)}
+                                    keyExtractor={(item, index) => item.count + index.toString()}
+                                    renderItem={({ item }) =>
+                                        <View style={styles.reactionContainer}>
+                                            <Text style={styles.reaction}>
+                                                {item.reaction} {item.count}
+                                            </Text>
+                                        </View>
+                                    }
+                                />
+                            </View> 
+                        }
+                    </View>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 
@@ -84,7 +97,11 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 5,
+        padding: 5
+    },
+    overlay: {
+        position: 'absolute',
+        top: 0
     },
     leftContainer: {
         paddingLeft: 10,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, TextInput, StyleSheet, Keyboard } from 'react-native';
+import { View, TextInput, StyleSheet, Keyboard, TouchableOpacity } from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors, fonts, scaledSize } from '../constants';
 
@@ -9,6 +9,8 @@ const MessageInput = () => { //TODO: need to make this animated and look good
     const onKeyboardHide = () => setKeyboardOffset(0);
     const keyboardDidShowListener = useRef();
     const keyboardDidHideListener = useRef();
+
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         //@ts-ignore: type 'EmitterSubscription' is not assignable to type 'Undefined'
@@ -23,6 +25,14 @@ const MessageInput = () => { //TODO: need to make this animated and look good
           keyboardDidHideListener.current.remove();
         };
     }, []);
+
+    const onMessageSend = () => {
+        if (message.length > 0) {
+            console.log(message);
+            setMessage('');
+        }
+    };
+
     return (
         <View style={[styles.container, { bottom: keyboardOffset }]}>
             <View style={styles.addButton}>
@@ -38,10 +48,14 @@ const MessageInput = () => { //TODO: need to make this animated and look good
                     multiline
                     placeholderTextColor={colors.neutralFour}
                     underlineColorAndroid="transparent"
+                    onChangeText={(text) => setMessage(text)}
+                    value={message}
                 />
-                <View style={styles.blueIconContainer}>
-                    <MaterialCommunityIcons name="send" size={scaledSize(25)} color={colors.neutralEight}/>
-                </View>
+                <TouchableOpacity onPress={onMessageSend}>
+                    <View style={[styles.blueIconContainer, { backgroundColor: message.length > 0 ? colors.primaryBlue : colors.neutralOne }]}>
+                        <MaterialCommunityIcons name="send" size={scaledSize(25)} color={colors.neutralEight}/>
+                    </View>
+                </TouchableOpacity>
             </View>
         </View>
     );
