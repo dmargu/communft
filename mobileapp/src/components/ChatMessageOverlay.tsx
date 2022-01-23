@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
         padding: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        position: 'relative',
-        top: 0,
+        position: 'absolute',
+        //top: 0,
     },
     container: {
     },

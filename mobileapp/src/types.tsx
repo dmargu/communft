@@ -16,6 +16,8 @@ export type RootStackParamList = {
     chatID: number,
     chatTitle: string 
   };
+  WelcomeScreen: undefined;
+  LoginScreen: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<

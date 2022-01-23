@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Pressable } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation  } from '@react-navigation/native';
 
@@ -17,14 +17,29 @@ const ChatRoomScreen = () => { //TODO: android title is not working right, ios f
 
     return (
         <View style={styles.container}>
-            <FlatList 
-                data={messageData.reverse()} // inverting it and reversing messageData is buggy when messages stay the same across chats
-                inverted                     // inverts it every time it rerenders (ex. right, backwards, right, backwards)
-                renderItem={({ item }) => {
-                    if (item.replyToMessageID) {
-                        //find the message that matches replyToMessageID
-                        const replyToMessage = messageData.find(message => message.messageID === item.replyToMessageID);
-                        if (replyToMessage) {
+                <FlatList 
+                    data={messageData.reverse()} // inverting it and reversing messageData is buggy when messages stay the same across chats
+                    inverted                     // inverts it every time it rerenders (ex. right, backwards, right, backwards)
+                    renderItem={({ item }) => {
+                        if (item.replyToMessageID) {
+                            //find the message that matches replyToMessageID
+                            const replyToMessage = messageData.find(message => message.messageID === item.replyToMessageID);
+                            if (replyToMessage) {
+                                return (
+                                    <ChatMessage
+                                        imgUri={item.imgUri}
+                                        messageSenderUsername={item.messageSenderUsername}
+                                        message={item.message}
+                                        messageTime={item.messageTime}
+                                        reactions={item.reactions}
+                                        replyMessageUsername={replyToMessage.messageSenderUsername}
+                                        replyMessage={replyToMessage.message}
+                                    />
+                                );
+                            } else { //this logic needs to be sorted out
+                                return null;
+                            }
+                        } else {
                             return (
                                 <ChatMessage
                                     imgUri={item.imgUri}
@@ -32,27 +47,12 @@ const ChatRoomScreen = () => { //TODO: android title is not working right, ios f
                                     message={item.message}
                                     messageTime={item.messageTime}
                                     reactions={item.reactions}
-                                    replyMessageUsername={replyToMessage.messageSenderUsername}
-                                    replyMessage={replyToMessage.message}
                                 />
                             );
-                        } else { //this logic needs to be sorted out
-                            return null;
                         }
-                    } else {
-                        return (
-                            <ChatMessage
-                                imgUri={item.imgUri}
-                                messageSenderUsername={item.messageSenderUsername}
-                                message={item.message}
-                                messageTime={item.messageTime}
-                                reactions={item.reactions}
-                            />
-                        );
-                    }
-                }}
-                keyExtractor={(item, index) => item.messageSenderUsername + index}
-            />
+                    }}
+                    keyExtractor={(item, index) => item.messageSenderUsername + index}
+                />
             <MessageInput />
         </View>
     );

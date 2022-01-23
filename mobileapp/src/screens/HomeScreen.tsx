@@ -5,7 +5,6 @@ import * as Location from 'expo-location';
 
 import ChatPreview from '../components/ChatPreview';
 import { messagePreviewData } from '../dummyData';
-import { GET_MESSAGES } from '../graphql/queries';
 import { RootTabScreenProps } from '../types';
 import { colors, fonts, dimensions, scaledSize } from '../constants';
 
@@ -27,11 +26,6 @@ const HomeScreen = () => {
   const [location, setLocation] = useState<Location>();
   const [errorMsg, setErrorMsg] = useState('');
 
-  const { loading, error, data } = useQuery(GET_MESSAGES);
-  if (error) {
-    console.log(error);
-  }
-
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -49,7 +43,6 @@ const HomeScreen = () => {
   }, []);
 
   console.log(location);
-  console.log(loading, error, data);
 
   return (
     <View style={styles.container}>

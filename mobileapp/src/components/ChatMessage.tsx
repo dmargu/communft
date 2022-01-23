@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Modal } from 'react-native';
 import { Avatar } from 'react-native-elements';
 
 import { colors, fonts, scaledSize } from '../constants';
@@ -44,11 +44,14 @@ const ChatMessage = (props: ChatMessageProps) => {
                 toggleOverlay(true);
             }}
         >
-            <View style={{ position: 'relative' }}>
-                <ChatMessageOverlay
-                    overlayVisible={overlayVisible}
-                    toggleOverlay={() => toggleOverlay(!overlayVisible)}
-                />
+            <View>
+                <View style={styles.overlayContainer}>
+                    {overlayVisible &&
+                        <View style={styles.overlay}>
+                            <Text>dfasdfkljsadklsjldkfjklasdfkljasfkljasfjkladsklfasdklja</Text>
+                        </View> 
+                    }
+                </View>
                 {replyMessageUsername && 
                     <View style={styles.replyContainer}>
                         <Text style={styles.replyUsername}>{replyMessageUsername}</Text>
@@ -99,9 +102,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 5
     },
-    overlay: {
-        position: 'absolute',
-        top: 0
+    overlayContainer: {
+        alignItems: 'center'
+    },
+    overlay: { 
+        position: 'absolute', 
+        height: 50, 
+        width: 50, 
+        backgroundColor: colors.neutralThree, 
+        zIndex: 3, 
+        elevation: 3, 
+        justifyContent: 'center', 
+        alignItems: 'center' 
     },
     leftContainer: {
         paddingLeft: 10,

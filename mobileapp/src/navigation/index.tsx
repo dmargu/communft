@@ -13,13 +13,24 @@ import HomeScreen from '../screens/HomeScreen';
 import PrivateProfileScreen from '../screens/PrivateProfileScreen';
 import ChatRoomScreen from '../screens/ChatRoomScreen';
 import GoBackCircle from '../components/common/GoBackCircle';
+import WelcomeScreen from '../screens/auth/WelcomeScreen';
+import LoginScreen from '../screens/auth/LoginScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { AuthContext } from '../Context';
+import useCachedResources from '../hooks/useCachedResources';
 
 
 export default function Navigation() {
+  useCachedResources();
+  const context = React.useContext(AuthContext);
+  console.log(context);
+  if (context.isAppLoading) {
+    return null;
+  }
+
   return (
     <NavigationContainer>
-      <RootNavigator />
+      {context.authToken ? <RootNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
 }
@@ -74,6 +85,17 @@ function RootNavigator() {
     </Stack.Navigator>
   );
 }
+
+function AuthNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="WelcomeScreen" component={WelcomeScreen}/>
+      <Stack.Screen name="LoginScreen" component={LoginScreen}/>
+    </Stack.Navigator>
+  );
+}
+
+
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
