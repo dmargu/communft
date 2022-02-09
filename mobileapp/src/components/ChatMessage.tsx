@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Pressable } from 'react-native';
 import { Avatar } from 'react-native-elements';
 
 import { colors, fonts, scaledSize } from '../constants';
@@ -47,9 +47,9 @@ const ChatMessage = (props: ChatMessageProps) => {
             <View>
                 <View style={styles.overlayContainer}>
                     {overlayVisible &&
-                        <View style={styles.overlay}>
+                        <Pressable style={styles.overlay} onPress={() => toggleOverlay(false)}>
                             <Text>dfasdfkljsadklsjldkfjklasdfkljasfkljasfjkladsklfasdklja</Text>
-                        </View> 
+                        </Pressable> 
                     }
                 </View>
                 {replyMessageUsername && 
@@ -106,12 +106,6 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     overlay: { 
-        position: 'absolute', 
-        height: 50, 
-        width: 50, 
-        backgroundColor: colors.neutralThree, 
-        zIndex: 3, 
-        elevation: 3, 
         justifyContent: 'center', 
         alignItems: 'center' 
     },

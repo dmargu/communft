@@ -50,7 +50,6 @@ export default function useCachedResources() {
         console.warn(e);
       } finally {
         context.appLoaded();
-        console.log('post load', context);
         SplashScreen.hideAsync();
       }
     }

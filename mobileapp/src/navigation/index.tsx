@@ -23,7 +23,6 @@ import useCachedResources from '../hooks/useCachedResources';
 export default function Navigation() {
   useCachedResources();
   const context = React.useContext(AuthContext);
-  console.log(context);
   if (context.isAppLoading) {
     return null;
   }

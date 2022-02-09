@@ -21,6 +21,7 @@ const LoginScreen = () => {
             context.login(data.login.token);
         },
         onError: (err: any) => {
+            console.log(err);
             console.log(err.graphQLErrors[0].extensions.errors);
         }
     });
