@@ -1,40 +1,57 @@
 import React from 'react';
-import { Text, View, StyleSheet, Modal } from 'react-native';
-import { Overlay } from 'react-native-elements';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+
+import { colors, fonts } from '../constants';
 
 
-interface Props {
-    overlayVisible: boolean;
-    toggleOverlay: () => void;
-}
+const sendReaction = (type: string) => {
+    console.log(type);
+};
 
-const ChatMessageOverlay = (props: Props) => { //cannot get the overlay not be in the center of the screen
+
+//make a helper component that takes in an emoji and returns a touchable emoji that when clicked fires off a helper function
+const Reaction = (props: { emoji: string, type: string }) => {
     return (
-        <Overlay
-            isVisible={props.overlayVisible}
-            onBackdropPress={props.toggleOverlay}
-            overlayStyle={styles.overlay}
-        >
-            <View style={styles.container}>
-                <Text style={styles.text}>This is the chat message overlay</Text>
+        <View style={styles.reaction}>
+            <TouchableOpacity onPress={() => sendReaction(props.type)}>
+                <Text>{props.emoji}</Text>
+            </TouchableOpacity>
+        </View>
+    );
+};
+
+const ChatMessageOverlay = () => {
+    return (
+        <View>
+            <View style={styles.reactionsContainer}>
+                <Reaction emoji="😂" type="laughing"/>
+                <Reaction emoji="😲" type="wow"/>
+                <Reaction emoji="😢" type="sad"/>
+                <Reaction emoji="❤️" type="heart"/>
+                <Reaction emoji="🔥" type="fire"/>
+                <Reaction emoji="👍" type="thumbs up"/>
+                <Reaction emoji="👎" type="thumbs down"/>
             </View>
-        </Overlay>
+            <TouchableOpacity onPress={() => {}}>
+                <Text style={styles.reply}>Reply</Text>
+            </TouchableOpacity>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
-    overlay: {
-        backgroundColor: '#fff',
-        borderRadius: 10,
-        padding: 10,
+    reactionsContainer: {
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-        position: 'absolute',
-        //top: 0,
+        justifyContent: 'center'
     },
-    container: {
+    reaction: {
+        padding: 5,
     },
-    text: {}
+    reply: {
+        color: colors.primaryBlue,
+        paddingLeft: 5
+    }
 });
 
 export default ChatMessageOverlay;
