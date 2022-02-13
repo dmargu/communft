@@ -18,3 +18,20 @@ export const GET_MESSAGES = gql`
         }
     }
 `;
+
+export const GET_USER = gql`
+    query {
+        getUser{
+            id
+            username
+            connectedWallets{
+            walletAddress
+            walletProvider
+            }
+            homeRegion
+            lastKnownRegion
+            groups
+            friends
+        }
+    }
+`;

@@ -1,14 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, ActivityIndicator } from 'react-native';
-import { useNavigation  } from '@react-navigation/native';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 import { AuthContext } from '../../Context';
 import { LOGIN_USER } from '../../graphql/Mutations';
 
 
 const LoginScreen = () => {
-    const navigation = useNavigation();
     const context = useContext(AuthContext);
 
     const [loginUser, { loading }] = useMutation(LOGIN_USER, { //this isn't working
@@ -18,7 +16,7 @@ const LoginScreen = () => {
         },
         onCompleted: (data: any) => {
             //send user data to context
-            context.login(data.login.token);
+            context.login(data.login);
         },
         onError: (err: any) => {
             console.log(err);

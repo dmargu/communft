@@ -9,15 +9,17 @@ interface Action {
 
 const initialState: any = {
     authToken: null,
-    isAppLoading: true
+    isAppLoading: true,
+    authenticatedUserId: null
 };
 
 
 const AuthContext = createContext({
     authToken: null,
     isAppLoading: true,
-    login: (authToken: string) => {},
-    restoreLogin: (authToken: string) => {},
+    authenticatedUserId: null,
+    login: (payload: { token: string, id: string }) => {},
+    restoreLogin: (payload: { token: string, id: string }) => {},
     logout: () => {},
     appLoaded: () => {}
 });
@@ -27,7 +29,8 @@ function authReducer(state: any, action: Action) {
         case 'LOGIN':
             return {
                 ...state,
-                authToken: action.payload,
+                authToken: action.payload.token,
+                authenticatedUserId: action.payload.id
             };
         case 'LOGOUT':
             return {
@@ -45,23 +48,28 @@ function authReducer(state: any, action: Action) {
     }
 }
 
+interface LoginPayload {
+    token: string;
+    id: string;
+}
+
 function AuthProvider(props: any) {
     const [state, dispatch] = useReducer(authReducer, initialState);
 
-    async function login(authToken: string) {
+    async function login(payload: LoginPayload) {
         //add the authToken to users local storage
-        await SecureStore.setItemAsync('jwtToken', authToken);
+        await SecureStore.setItemAsync('jwtToken', payload.token);
         dispatch({
             type: 'LOGIN',
-            payload: authToken
+            payload
         });
     }
 
-    function restoreLogin(authToken: string) {
+    function restoreLogin(payload: LoginPayload) {
         //token is already in local storage so just log the user in
         dispatch({
             type: 'LOGIN',
-            payload: authToken
+            payload
         });
     }
 
@@ -80,7 +88,7 @@ function AuthProvider(props: any) {
     }
 
     return (
-        <AuthContext.Provider value={{ authToken: state.authToken, isAppLoading: state.isAppLoading, login, restoreLogin, logout, appLoaded }}
+        <AuthContext.Provider value={{ authToken: state.authToken, isAppLoading: state.isAppLoading, authenticatedUserId: state.authenticatedUserId, login, restoreLogin, logout, appLoaded }}
         {...props}
         />
     );

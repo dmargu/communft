@@ -39,7 +39,8 @@ export default function useCachedResources() {
               SecureStore.deleteItemAsync('jwtToken');
             } else {
               //login the user
-              context.restoreLogin(token);
+              //@ts-ignore
+              context.restoreLogin({ token: token, id: decodedToken.id });
             }
           }
         }, err => {

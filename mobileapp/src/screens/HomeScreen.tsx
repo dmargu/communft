@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { useQuery } from '@apollo/client';
 import * as Location from 'expo-location';
@@ -7,6 +7,8 @@ import ChatPreview from '../components/ChatPreview';
 import { messagePreviewData } from '../dummyData';
 import { RootTabScreenProps } from '../types';
 import { colors, fonts, dimensions, scaledSize } from '../constants';
+import { AuthContext } from '../Context';
+import { GET_USER } from '../graphql/Queries';
 
 //make a type interface for location object
 interface Location {
@@ -23,6 +25,8 @@ interface Location {
 }
 
 const HomeScreen = () => {
+  const context = useContext(AuthContext);
+  console.log(context.authenticatedUserId);
   const [location, setLocation] = useState<Location>();
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -42,7 +46,12 @@ const HomeScreen = () => {
     })();
   }, []);
 
-  console.log(location);
+  //console.log(location);
+
+  //@ts-ignore
+  const { data } = useQuery(GET_USER);
+
+  console.log(data);
 
   return (
     <View style={styles.container}>
