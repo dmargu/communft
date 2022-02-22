@@ -7,7 +7,7 @@ import RootComponent from './src/App';
 
 
 const httpLink = new HttpLink({
-  uri: 'http://10.0.0.52:5000' //should change this to a .env variable
+  uri: 'http://10.0.0.45:5000' //should change this to a .env variable
 });
 
 const authLink = setContext(async () => {

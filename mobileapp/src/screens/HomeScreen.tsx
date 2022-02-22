@@ -8,7 +8,7 @@ import { messagePreviewData } from '../dummyData';
 import { RootTabScreenProps } from '../types';
 import { colors, fonts, dimensions, scaledSize } from '../constants';
 import { AuthContext } from '../Context';
-import { GET_USER } from '../graphql/Queries';
+import { GET_USER_INFO } from '../graphql/Queries';
 
 //make a type interface for location object
 interface Location {
@@ -30,6 +30,7 @@ const HomeScreen = () => {
   const [location, setLocation] = useState<Location>();
   const [errorMsg, setErrorMsg] = useState('');
 
+  //verify user's location and update the database with region and then update user info here
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -46,12 +47,15 @@ const HomeScreen = () => {
     })();
   }, []);
 
-  //console.log(location);
+  //get the updated groups of the user from the database and enrich the data
+  //if we want to save user data earlier in context then change that
+  const { data: userData, loading: userLoading, error: userError } = useQuery(GET_USER_INFO);
+  // ran out of time - it makes no sense to do this in two separate queries just in the backend when u get the user info go find all the groups and return it with this user data
 
-  //@ts-ignore
-  const { data } = useQuery(GET_USER);
-
-  console.log(data);
+  if (userLoading) return <Text>Loading...</Text>;
+  if (userError) return <Text>Error: {userError.message}</Text>;
+  //get the groups from the ids in the user data
+  console.log(userData.getUser.groups);
 
   return (
     <View style={styles.container}>

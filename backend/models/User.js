@@ -11,12 +11,8 @@ const userSchema = new Schema({
         walletAddress: String,
         walletProvider: String
     }],
-    groups: [{ 
-        groupId: String 
-    }],
-    friends: [{ 
-        userID: String 
-    }]
+    groups: [String],
+    friends: [String]
 });
 
 module.exports = model('User', userSchema);
